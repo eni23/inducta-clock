@@ -20,7 +20,8 @@ uint16_t year;
 // state variables
 bool pulse_direction;
 uint8_t serial_data;
-
+bool btn_action = false;
+bool ignore_sec_zero = false;
 
 // Serial debug macros
 #ifdef ENABLE_SERIAL_DBG
@@ -48,10 +49,12 @@ void pulse() {
   if ( pulse_direction ){
     digitalWrite( PIN_CLOCK1, HIGH);
     digitalWrite(PIN_CLOCK2, LOW);
+    serial_debugln("+");
   }
   else {
     digitalWrite( PIN_CLOCK1, LOW );
     digitalWrite( PIN_CLOCK2, HIGH );
+    serial_debugln("-");
   }
   pulse_direction = !pulse_direction;
   delay(160);
@@ -70,7 +73,7 @@ void encoder_btn_interrupt() {
   if ( !btn_debounce.check() ) {
     return;
   }
-  serial_debugln("btn press");
+  btn_action = true;
 }
 
 
@@ -86,10 +89,11 @@ void encoder_loop() {
     if ( enc_dir == DIR_CW ){
       zero_rtc();
       pulse();
+      ignore_sec_zero = true;
     }
      else {
       zero_rtc();
-      pulse();
+      ignore_sec_zero = true;
     }
   }
 }
@@ -138,9 +142,31 @@ void loop() {
   // process time setting
   encoder_loop();
 
+  // read rtc clock
   rtc.get( &sec, &min, &hour, &day, &month, &year );
-  if (sec == 0){
+
+  //serial_debugln(sec);
+
+  // if second is 0 and action should not be ignored (from encoder set)
+  if (sec == 0  && !ignore_sec_zero ){
+    serial_debugln("tick");
     pulse();
+    delay(999);
+    ignore_sec_zero = false;
+  }
+  if (sec != 0) {
+      ignore_sec_zero = false;
+  }
+
+  // press on button gets triggered from interrupt
+  if (btn_action) {
+    btn_action = false;
+    serial_debugln("btn");
+    for (uint8_t i=0; i<15; i++){
+      pulse();
+    }
+    zero_rtc();
+    ignore_sec_zero = true;
   }
 
 }
