@@ -6,10 +6,9 @@ Docs, hardware and software for running `Type 5 BT600` based slave clocks.
 ## Electrical details
 
 
-
 ### Coil connection to 12V
 
-In the [original documentation](./doc/bt659.pdf) it is mentioned that the coil can be run, if a shunt is connected. For the BT600 this would look like this:
+According to the [original documentation](./doc/BT630_637-operation-instructions.pdf) the coil can be run with DC if a shunt is connected. For 12V the shunt needs to be connected like this:
 
 ![](./doc/coil-connection.png)![](./doc/coil-connection-photo.png)
 
@@ -23,7 +22,7 @@ BOM:
 * L9110H H bridge
 * 5V to 12V step up module
 * Encoder with button
-* DS3131 RTC
+* DS3131 RTC or DS1307 RTC module
 
 ![](./doc/schematics.png)
 
@@ -34,7 +33,14 @@ BOM:
 
 ```
 platformio lib install 275
-platformio lib install 145
+platformio lib install 1371
+```
+
+Set `RTC_MODEL` in `src/config.h`. Use the following values:
+```
+1 = DS1307
+2 = DS3231
+3 = DS3232
 ```
 
 Build the firmware like this:

@@ -4,8 +4,7 @@
 #include "debouncer.cpp"
 
 #include <Rotary.h>   // platformio lib install 275
-#include <DS1307.h>   // platformio lib install 145
-
+#include "uRTCLib.h"  // platformio lib install 1371
 
 
 // time setting & encoder
@@ -13,15 +12,15 @@ Rotary encoder = Rotary( ENCODER_PIN_UP, ENCODER_PIN_DOWN );
 Debouncer btn_debounce( 390 );
 
 // RTC stuff
-DS1307 rtc;
-uint8_t sec, min, hour, day, month;
-uint16_t year;
+uRTCLib rtc;
+uint8_t sec;
 
 // state variables
 bool pulse_direction;
 uint8_t serial_data;
 bool btn_action = false;
 bool ignore_sec_zero = false;
+
 
 // Serial debug macros
 #ifdef ENABLE_SERIAL_DBG
@@ -33,6 +32,7 @@ bool ignore_sec_zero = false;
 #endif
 
 
+
 //
 // Clock / Pulse functions
 //
@@ -40,7 +40,8 @@ bool ignore_sec_zero = false;
 
 // update rtc clock
 void zero_rtc() {
-  rtc.set( 0, 0, 0, 5, 11, 2019 );
+  rtc.set( 0, 0, 0, 0, 5, 11, 19 );
+	// RTCLib::set(byte second, byte minute, byte hour, byte dayOfWeek, byte dayOfMonth, byte month, byte year)
 }
 
 
@@ -127,6 +128,11 @@ void setup() {
     Serial.begin( SERIAL_BAUD );
   #endif
 
+  // init RTC
+  Wire.begin();
+  rtc.set_rtc_address( RTC_ADDR );
+	rtc.set_model( RTC_MODEL );
+
   // turn off leds
   pinMode( LED_BUILTIN_TX, OUTPUT );
   digitalWrite( LED_BUILTIN_TX, HIGH );
@@ -143,8 +149,7 @@ void loop() {
   encoder_loop();
 
   // read rtc clock
-  rtc.get( &sec, &min, &hour, &day, &month, &year );
-
+  sec = rtc.second();
   //serial_debugln(sec);
 
   // if second is 0 and action should not be ignored (from encoder set)
