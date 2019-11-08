@@ -2,9 +2,17 @@
 
 Docs, hardware and software for running `Type 5 BT600` based slave clocks.
 
+## Content
+
+* [Electrical Details](#electrical-details)
+ * [Coil connection to 12V](#coil-connection-to-12v)
+ * [Arduino circuit](#arduino-circuit)
+* [Firmware](#firmware)
+* [License](#license)
+
+
 
 ## Electrical details
-
 
 ### Coil connection to 12V
 
