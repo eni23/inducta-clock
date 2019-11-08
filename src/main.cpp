@@ -41,7 +41,6 @@ bool ignore_sec_zero = false;
 // update rtc clock
 void zero_rtc() {
   rtc.set( 0, 0, 0, 0, 5, 11, 19 );
-	// RTCLib::set(byte second, byte minute, byte hour, byte dayOfWeek, byte dayOfMonth, byte month, byte year)
 }
 
 
@@ -149,8 +148,8 @@ void loop() {
   encoder_loop();
 
   // read rtc clock
+  rtc.refresh();
   sec = rtc.second();
-  //serial_debugln(sec);
 
   // if second is 0 and action should not be ignored (from encoder set)
   if (sec == 0  && !ignore_sec_zero ){
