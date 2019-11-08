@@ -63,3 +63,8 @@ Upload it like this:
 ```
 make upload
 ```
+
+
+## License
+
+`inducta-clock` is licensed under [GPL v3](./LICENSE)
