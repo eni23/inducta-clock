@@ -12,7 +12,15 @@ According to the [original documentation](./doc/BT630_637-operation-instructions
 
 ![](./doc/coil-connection.png)![](./doc/coil-connection-photo.png)
 
-To switch minutes on the clock revert polarity for every step and pulse at least 160ms.
+To switch minutes on the clock revert polarity for every step and pulse at least 160ms. The coil will draw around ~30mA @12V when flipping a blade.
+
+|Step|Pin 1 polarity|Pin 2 polarity|
+|:--:|:------------:|:------------:|
+| 1  | +            | -            |
+| 2  | -            | +            |
+| 3  | +            | -            |
+| 4  | -            | +            |
+| .. | ..           | ..           |
 
 
 ### Arduino circuit
@@ -26,15 +34,18 @@ BOM:
 
 ![](./doc/schematics.png)
 
+The circuit can be connected to an Micro USB charger with at least 500mA over the Arduino USB port.
 
 ## Firmware
 
-[Platformio](https://platformio.org) is needed to compile and upload firmware. Install the following libraries:
+[Platformio](https://platformio.org) is needed to compile and upload the firmware. Install the following libraries:
 
 ```
 platformio lib install 275
 platformio lib install 1371
 ```
+(Normally this happens automatically when building)
+
 
 Set `RTC_MODEL` in `src/config.h`. Use the following values:
 ```
