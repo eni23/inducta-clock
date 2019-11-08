@@ -44,6 +44,12 @@ BOM:
 
 The circuit can be connected to an Micro USB charger with at least 500mA over the Arduino USB port.
 
+With some chinesium the board can be easily made:
+
+![](./doc/board.png)
+
+
+
 ## Firmware
 
 [Platformio](https://platformio.org) is needed to compile and upload the firmware. Install the following libraries:
