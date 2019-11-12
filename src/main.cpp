@@ -151,6 +151,8 @@ void loop() {
   rtc.refresh();
   sec = rtc.second();
 
+  //serial_debugln(sec);
+
   // if second is 0 and action should not be ignored (from encoder set)
   if (sec == 0  && !ignore_sec_zero ){
     serial_debugln("tick");
@@ -166,7 +168,7 @@ void loop() {
   if (btn_action) {
     btn_action = false;
     serial_debugln("btn");
-    for (uint8_t i=0; i<15; i++){
+    for (uint8_t i=0; i<BTN_FWD_MINUTES; i++){
       pulse();
     }
     zero_rtc();
