@@ -2,14 +2,17 @@
 
 Docs, hardware and software for running `Type 5 BT600` based slave clocks.
 
+![](./doc/overview.png)
+
+
 ## Content
 
 * [Electrical Details](#electrical-details)
   * [Coil connection to 12V](#coil-connection-to-12v)
   * [Arduino circuit](#arduino-circuit)
 * [Firmware](#firmware)
+* [Pictures](#pictures)
 * [License](#license)
-
 
 
 ## Electrical details
@@ -77,6 +80,14 @@ Upload it like this:
 ```
 make upload
 ```
+
+## Pictures
+
+![](./doc/full-clock.png)<br>
+Clock in Case
+
+![](./doc/board-in-case.png)<br>
+Board mounted to case
 
 
 ## License
